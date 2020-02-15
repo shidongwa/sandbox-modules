@@ -43,7 +43,7 @@ public class RceModule extends CommonModule {
                                 e.printStackTrace();
                             }
                         } else if(event.type == Event.Type.RETURN || event.type == Event.Type.THROWS){
-                            // 显式清理thread local, 否则rasp plugin资源不能释放
+                            // 显式清理thread local, 否则 rasp plugin资源不能释放
                             reportInfoThreadLocal.remove();
                         }
                     }

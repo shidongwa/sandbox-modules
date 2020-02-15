@@ -21,10 +21,10 @@ public class JettyEventModule extends CommonModule {
     public void getJettyRequest() {
 
         new EventWatchBuilder(moduleEventWatcher)
-                .onClass("org.eclipse.jetty.server.handler.HandlerWrapper")
+                .onClass("org.eclipse.jetty.server.Server")
                 .onBehavior("handle")
-                .withParameterTypes("java.lang.String", "org.eclipse.jetty.server.Request",
-                        "javax.servlet.http.HttpServletRequest", "javax.servlet.http.HttpServletResponse")
+                // 匹配参数 HttpChannel 和 AbstractHttpConnection
+                .withParameterTypes("org.eclipse.jetty.server.*")
                 .onWatch(                // 监听THROWS事件并且改变原有方法抛出异常为正常返回
                         new EventListener() {
                             @Override
@@ -46,7 +46,7 @@ public class JettyEventModule extends CommonModule {
         new EventWatchBuilder(moduleEventWatcher)
                 .onClass("org.eclipse.jetty.server.HttpInput")
                 .onBehavior("read")
-//                .withParameterTypes("byte[]", "int", "int")
+                .withParameterTypes("*", "*", "*")
                 .onWatch(
                         // 监听THROWS事件并且改变原有方法抛出异常为正常返回
                         new EventListener() {
@@ -55,7 +55,7 @@ public class JettyEventModule extends CommonModule {
                                 if(event.type == Event.Type.BEFORE) {
 //                                    System.out.println("para before event occur");
                                 } else if(event.type == Event.Type.RETURN) {
-//                                    System.out.println("para return event occur");
+//                                    System.out.println("para return evfir ent occur");
                                 } else if(event.type == Event.Type.THROWS) {
 //                                    System.out.println("para throw event occur");
                                 }
